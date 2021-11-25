@@ -47,7 +47,8 @@
             this.buttonExit.Margin = new System.Windows.Forms.Padding(0);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(40, 40);
-            this.buttonExit.TabIndex = 9;
+            this.buttonExit.TabIndex = 4;
+            this.buttonExit.TabStop = false;
             this.buttonExit.Text = "X";
             this.buttonExit.UseVisualStyleBackColor = false;
             this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
@@ -65,7 +66,7 @@
             this.label1.MinimumSize = new System.Drawing.Size(380, 60);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(380, 60);
-            this.label1.TabIndex = 10;
+            this.label1.TabIndex = 3;
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label2
@@ -81,7 +82,7 @@
             this.label2.MinimumSize = new System.Drawing.Size(360, 50);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(360, 50);
-            this.label2.TabIndex = 11;
+            this.label2.TabIndex = 2;
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
@@ -97,7 +98,7 @@
             this.label3.MinimumSize = new System.Drawing.Size(360, 50);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(360, 50);
-            this.label3.TabIndex = 12;
+            this.label3.TabIndex = 1;
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label4
@@ -113,7 +114,7 @@
             this.label4.MinimumSize = new System.Drawing.Size(360, 50);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(360, 50);
-            this.label4.TabIndex = 13;
+            this.label4.TabIndex = 0;
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Form1
@@ -203,11 +204,11 @@
             buttonArray[1].Text = "C";
             buttonArray[1].Click += new System.EventHandler(buttonC_Click);
             //
-            // buttonPercent
+            // buttonDel
             //
-            buttonArray[2].Name = "buttonPercent";
-            buttonArray[2].Text = "%";
-            buttonArray[2].Click += new System.EventHandler(buttonPercent_Click);
+            buttonArray[2].Name = "buttonDel";
+            buttonArray[2].Text = "←";
+            buttonArray[2].Click += new System.EventHandler(buttonDel_Click);
             //
             // buttonPlus
             //
