@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace AWESOME_Calculator
 {
@@ -46,7 +47,8 @@ namespace AWESOME_Calculator
         }
         private void buttonPlus_Click(object sender, EventArgs e)
         {
-            calculate('+');
+            gTemp += label1.Text + ",гл,";
+            cnt++;
         }
         private void button7_Click(object sender, EventArgs e)
         {
@@ -62,7 +64,8 @@ namespace AWESOME_Calculator
         }
         private void buttonMinus_Click(object sender, EventArgs e)
         {
-            calculate('-');
+            gTemp += label1.Text + ",гн,";
+            cnt++;
         }
         private void button4_Click(object sender, EventArgs e)
         {
@@ -78,7 +81,8 @@ namespace AWESOME_Calculator
         }
         private void buttonMulti_Click(object sender, EventArgs e)
         {
-            calculate('б┐');
+            gTemp += label1.Text + ",б┐,";
+            cnt++;
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -94,7 +98,8 @@ namespace AWESOME_Calculator
         }
         private void buttonDiv_Click(object sender, EventArgs e)
         {
-            calculate('б└');
+            gTemp += label1.Text + ",б└,";
+            cnt++;
         }
         private void button0_Click(object sender, EventArgs e)
         {
@@ -105,6 +110,8 @@ namespace AWESOME_Calculator
         }
         private void buttonResult_Click(object sender, EventArgs e)
         {
+            gTemp += label1.Text;
+            calculate(gTemp);
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -152,7 +159,7 @@ namespace AWESOME_Calculator
                     print('9');
                     break;
                 case Keys.Enter :
-                    calculate('г╜');
+                    buttonResult_Click(sender, e);
                     break;
             }
         }
@@ -207,8 +214,11 @@ namespace AWESOME_Calculator
                 }
             }
         }
-        private void tempArray(string temp)
+        private void calculate(string gTemp)
         {
+            int num1 = 0;
+            int num2 = 0;
+
             Dictionary<string, int> dic = new Dictionary<string, int>();
                 dic["гл"] = 1;
                 dic["гн"] = 1;
@@ -216,37 +226,80 @@ namespace AWESOME_Calculator
                 dic["б└"] = 2;
 
             string beforeOp = "";
-            string[] arr = temp.Split(new string[] {","}, StringSplitOptions.None);
+            string[] arr = gTemp.Split(new string[] {","}, StringSplitOptions.None);
 
-            gTemp = "";
+            Queue<string> queue = new Queue<string>();
 
             Stack<int> stackNum = new Stack<int>();
             Stack<string> stackOp = new Stack<string>();
 
             for (int i = 0; i < arr.Length; i++)
             {
-                if (48 <= Convert.ToInt32(arr[i]) && Convert.ToInt32(arr[i]) <= 57)
+                if (arr[i] != "гл" && arr[i] != "гн" && arr[i] != "б┐" && arr[i] != "б└")
                 {
-                    gTemp += arr[i];
+                    queue.Enqueue(arr[i]);
+                }
+
+                else if(beforeOp == "" || dic[beforeOp] <= dic[arr[i]])
+                {
+                    beforeOp = arr[i];
+                    stackOp.Push(arr[i]);
                 }
                 else
                 {
-                    if (beforeOp == "" || dic[beforeOp] <= dic[arr[i]])
+                    while (stackOp.Count > 0)
                     {
-                        stackOp.Push(arr[i]);
+                        queue.Enqueue(stackOp.Pop());
                     }
-                    else if (dic[beforeOp] > dic[arr[i]])
+                }
+            }
+            foreach (var id in stackOp)
+            {
+                MessageBox.Show(id);
+            }
+            foreach (var id in queue)
+            {
+                MessageBox.Show(id);
+            }
+            for (int i = queue.Count; i > 0; i--)
+            {
+                string k = queue.Dequeue();
+                if (k != "гл" && k != "гн" && k != "б┐" && k != "б└")
+                {
+                    stackNum.Push(Convert.ToInt32(k));
+                }
+                else
+                {
+                    switch (k)
                     {
-                        while (stackOp.Count > 0)
-                        {
-                            gTemp += stackOp.Pop();
-                        }
+                        case "гл":
+                            num1 = stackNum.Pop();
+                            num2 = stackNum.Pop();
+                            stackNum.Push(num1 + num2);
+                            break;
+                        case "гн":
+                            num1 = stackNum.Pop();
+                            num2 = stackNum.Pop();
+                            stackNum.Push(num1 - num2);
+                            break;
+                        case "б┐":
+                            num1 = stackNum.Pop();
+                            num2 = stackNum.Pop();
+                            stackNum.Push(num1 * num2);
+                            break;
+                        case "б└":
+                            num1 = stackNum.Pop();
+                            num2 = stackNum.Pop();
+                            stackNum.Push(num2 / num1);
+                            break;
                     }
                 }
             }
 
+            label1.Text = stackNum.Pop().ToString();
 
         }
+        /*
         private void calculate(char op)
         {
             int result = 0;
@@ -255,7 +308,7 @@ namespace AWESOME_Calculator
             switch (op)
             {
                 case 'гл':
-                    gTemp = label1.Text + ",";
+                    
                     break;
                 case 'гн':
                     break;
@@ -265,12 +318,13 @@ namespace AWESOME_Calculator
                     break;
                 case 'г╜':
                     gTemp = label1.Text;
-                    tempArray(gTemp);
+                    
                     break;
             }
 
             cnt++;
         }
+        */
 
         private void calFunc(char op)
         {
