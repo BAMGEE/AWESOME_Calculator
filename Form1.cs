@@ -37,6 +37,7 @@ namespace AWESOME_Calculator
         private void buttonCE_Click(object sender, EventArgs e)
         {
             calFunc('A');
+            gTemp = "";
         }
         private void buttonC_Click(object sender, EventArgs e)
         {
@@ -218,6 +219,7 @@ namespace AWESOME_Calculator
         {
             int num1 = 0;
             int num2 = 0;
+            int q = 0;
 
             Dictionary<string, int> dic = new Dictionary<string, int>();
                 dic["гл"] = 1;
@@ -239,8 +241,7 @@ namespace AWESOME_Calculator
                 {
                     queue.Enqueue(arr[i]);
                 }
-
-                else if(beforeOp == "" || dic[beforeOp] <= dic[arr[i]])
+                else if (beforeOp == "" || dic[beforeOp] <= dic[arr[i]])
                 {
                     beforeOp = arr[i];
                     stackOp.Push(arr[i]);
@@ -253,15 +254,14 @@ namespace AWESOME_Calculator
                     }
                 }
             }
-            foreach (var id in stackOp)
+            while (stackOp.Count > 0)
             {
-                MessageBox.Show(id);
+                queue.Enqueue(stackOp.Pop());
             }
-            foreach (var id in queue)
-            {
-                MessageBox.Show(id);
-            }
-            for (int i = queue.Count; i > 0; i--)
+
+            q = queue.Count;
+
+            for (int i = 0; i < q; i++)
             {
                 string k = queue.Dequeue();
                 if (k != "гл" && k != "гн" && k != "б┐" && k != "б└")
